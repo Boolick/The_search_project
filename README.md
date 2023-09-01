@@ -1,27 +1,18 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Поиск пользователей GitHub
 
-Currently, two official plugins are available:
+Это одностраничное приложение, написанное на React и TypeScript. Суть проекта заключается в поиске пользователей GitHub по логину. Для работы с API GitHub используется библиотека axios.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Использование
 
-## Expanding the ESLint configuration
+1. Вставьте свой токен, сгенерированный в GitHub, в соответствующее поле.
+2. Введите логин пользователя в поле ввода и нажмите кнопку "Поиск".
+3. После этого появится список пользователей, которых можно отсортировать по количеству публичных репозиториев по убыванию и возрастанию, нажав на соответствующие кнопки.
+4. При клике на пользователя всплывает карточка с более подробными данными: количество публичных репозиториев, аватар, ссылка на аккаунт в GitHub и email.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Навигация
 
-- Configure the top-level `parserOptions` property like this:
+- Используйте кнопки "Вперед" и "Назад" для перелистывания страниц.
+- Используйте кнопки "По убыванию" и "По возрастанию" для сортировки списка пользователей по количеству публичных репозиториев.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
