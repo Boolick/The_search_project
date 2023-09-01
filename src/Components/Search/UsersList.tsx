@@ -71,6 +71,7 @@ function UsersList() {
 
           {sortedUsers.map((user) => (
             <Item
+              data-testid={"item"}
               onClick={(event) => handleItemClick(user, event)}
               key={user.id}
             >
@@ -82,7 +83,11 @@ function UsersList() {
           ))}
         </List>
         {selectedUser && (
-          <UserCard id="user-card" isVisible={isCardVisible}>
+          <UserCard
+            id="user-card"
+            data-testid={"user"}
+            isVisible={isCardVisible}
+          >
             <StyledTitel>{selectedUser.login}</StyledTitel>
             <div
               style={{
