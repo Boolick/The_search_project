@@ -11,9 +11,11 @@ async function checkToken(token: string) {
     console.log("User:", response.data.login);
     console.log("Email:", response.data.email);
     console.log("Scopes:", response.headers["x-oauth-scopes"]);
+    return true;
   } catch (error) {
-    console.log("Token is invalid");
+     console.log("Token is invalid");
+     return false;
   }
 }
-
-export default checkToken; // замените YOUR_TOKEN на значение вашего токена
+ 
+export default checkToken; 

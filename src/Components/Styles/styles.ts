@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
   max-width: 1280px;
@@ -160,4 +160,74 @@ export const StyledDescription = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+`;
+const loading = keyframes`
+  0% {
+    content: "Загрузка";
+  }
+  25% {
+    content: "Загрузка.";
+  }
+  50% {
+    content: "Загрузка..";
+  }
+  75% {
+    content: "Загрузка...";
+  }
+`;
+
+export const StyledLoading = styled.div`
+  position: fixed;
+  top: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #6fb3f9;
+  width: 200px;
+  height: 200px;
+
+  &:before {
+    content: "Загрузка";
+    animation: ${loading} 2s linear infinite;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    display: block;
+    font-size: 24px;
+    color: #39d353;
+    margin-top: -50px;
+  }
+`;
+
+export const StyledErrorMessage = styled.a`
+  position: fixed;
+  top: 50%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  height: 60px;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+  border: #e34c26 solid 1px;
+  border-radius: 8px;
+  background: #0a0c10;
+  padding: 5%;
+
+  font-weight: 500;
+  color: #e34c26;
+  text-decoration: none;
+  text-decoration: inherit;
+  &:hover {
+    text-decoration: underline;
+    color: #535bf2;
+  }
+`;
+export const StyledTextError = styled.p`
+  position: fixed;
+  top: 25%;
+  color: #e34c26;
+  font-size: 16px;
 `;
