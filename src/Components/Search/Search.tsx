@@ -2,21 +2,39 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { SearchWrapper, SearchInput, StyledButton } from "../Styles/styles";
+import {
+  SearchWrapper,
+  SearchInput,
+  StyledButton,
+  StyledErrorMessage,
+  StyledTextError,
+  StyledLoading,
+} from "../Styles/styles";
 import { User } from "../../Store/Store";
-import checkToken from "../../Components/Search/chek";
+import checkToken from "./chekToken";
 
 function Search() {
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
   const perPage = 6;
   const dispatch = useDispatch();
-  const token = "";
-  // проверка токена для доступа к данным gitHub
-  checkToken(token);
+  const [error, setError] = useState<string | null>(null);
+  const token = "YOUR_TOKEN"; // замените YOUR_TOKEN на значение вашего токена
+
+  const [isTokenValid, setIsTokenValid] = useState<null | boolean>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    async function validateToken() {
+      const isValid = await checkToken(token);
+      setIsTokenValid(isValid);
+    }
+    validateToken();
+  }, [token]);
 
   const handleSearch = useCallback(async () => {
     if (!searchValue) return;
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `https://api.github.com/search/users?q=${searchValue}&page=${page}&per_page=${perPage}`,
@@ -26,6 +44,11 @@ function Search() {
           },
         }
       );
+      if (response.data.total_count === 0) {
+        setError(`Пользователь с именем "${searchValue}" не найден`);
+        setIsLoading(false);
+        return;
+      }
       const users: User[] = response.data.items;
 
       const usersWithRepos = await Promise.all(
@@ -45,8 +68,13 @@ function Search() {
         })
       );
       dispatch({ type: "SEARCH_USERS", payload: usersWithRepos });
+      setError(null);
+      setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) {
+        setError(error.message);
+        setIsLoading(false);
+      }
     }
   }, [searchValue, page, perPage, dispatch]);
 
@@ -65,6 +93,12 @@ function Search() {
 
   return (
     <SearchWrapper>
+      {isLoading && (
+        <StyledLoading>
+          <div></div>
+        </StyledLoading>
+      )}
+      {error && <StyledTextError className="error">{error}</StyledTextError>}
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -79,6 +113,7 @@ function Search() {
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
         />
+
         <StyledButton onClick={handleSearch} type="submit">
           Search
         </StyledButton>
@@ -89,6 +124,11 @@ function Search() {
           PrevPage
         </StyledButton>
       </form>
+      {isTokenValid === false && (
+        <StyledErrorMessage href="https://docs.github.com/ru/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">
+          Ваш токен доступа недействителен
+        </StyledErrorMessage>
+      )}
     </SearchWrapper>
   );
 }
