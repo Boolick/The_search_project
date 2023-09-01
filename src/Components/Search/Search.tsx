@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { SearchWrapper, SearchInput, StyledButton } from "../Styles/styles";
 import { User } from "../../Store/Store";
-import checkToken from "../../Components/Search/chek";
+//import checkToken from "../../Components/Search/chek";
 
 function Search() {
   const [searchValue, setSearchValue] = useState("");
@@ -13,7 +13,7 @@ function Search() {
   const dispatch = useDispatch();
   const token = "";
   // проверка токена для доступа к данным gitHub
-  checkToken(token);
+  //checkToken(token);
 
   const handleSearch = useCallback(async () => {
     if (!searchValue) return;
@@ -66,6 +66,7 @@ function Search() {
   return (
     <SearchWrapper>
       <form
+        data-testid={"search-form"}
         onSubmit={(event) => {
           event.preventDefault();
           handleSearch();
@@ -79,13 +80,21 @@ function Search() {
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
         />
-        <StyledButton onClick={handleSearch} type="submit">
+        <StyledButton data-testid={"search-button"} type="submit">
           Search
         </StyledButton>
-        <StyledButton onClick={handleNextPage} type="button">
+        <StyledButton
+          onClick={handleNextPage}
+          data-testid={"nextButton"}
+          type="button"
+        >
           NextPage
         </StyledButton>
-        <StyledButton onClick={handlePrevPage} type="button">
+        <StyledButton
+          onClick={handlePrevPage}
+          data-testid={"prevButton"}
+          type="button"
+        >
           PrevPage
         </StyledButton>
       </form>
