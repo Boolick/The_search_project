@@ -99,7 +99,7 @@ export const UserCard = styled.div<UserCardProps>`
   justify-content: center;
   border: #727a86 solid 1px;
   border-radius: 16px;
-  gap: 10px;
+
   transition: all 0.5s;
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
   min-width: 400px;
@@ -178,12 +178,12 @@ const loading = keyframes`
 
 export const StyledLoading = styled.div`
   position: fixed;
-  top: 25%;
+  top: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 24px;
   color: #6fb3f9;
   width: 200px;
   height: 200px;
@@ -195,7 +195,7 @@ export const StyledLoading = styled.div`
     width: 100%;
     height: auto;
     display: block;
-    font-size: 24px;
+    font-size: 48px;
     color: #39d353;
     margin-top: -50px;
   }

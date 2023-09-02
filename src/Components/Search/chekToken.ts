@@ -1,6 +1,6 @@
 import axios from "axios";
 
-async function checkToken(token: string) {
+async function checkToken(token: string | null) {
   try {
     const response = await axios.get("https://api.github.com/user", {
       headers: {
@@ -13,9 +13,9 @@ async function checkToken(token: string) {
     console.log("Scopes:", response.headers["x-oauth-scopes"]);
     return true;
   } catch (error) {
-     console.log("Token is invalid");
-     return false;
+    console.log("Token is invalid");
+    return false;
   }
 }
- 
-export default checkToken; 
+
+export default checkToken;
