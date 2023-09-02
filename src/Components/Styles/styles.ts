@@ -24,7 +24,7 @@ export const StyledText = styled.p`
   color: #e4e8ec;
 `;
 export const StyledTitel = styled.h1`
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
   padding: 5%;
 `;
