@@ -2,16 +2,9 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  SearchWrapper,
-  SearchInput,
-  StyledButton,
-  StyledErrorMessage,
-  StyledTextError,
-  StyledLoading,
-} from "../Styles/styles";
+import { SearchWrapper, SearchInput, StyledButton, StyledLoading, StyledTextError, StyledErrorMessage } from "../Styles/styles";
 import { Token, User } from "../../Store/Store";
-import checkToken from "./chekToken";
+import checkToken from "../../Components/Search/chekToken";
 import { setToken } from "../../Store/actions";
 
 function Search() {
@@ -113,6 +106,7 @@ function Search() {
       )}
       {error && <StyledTextError className="error">{error}</StyledTextError>}
       <form
+        data-testid={"search-form"}
         onSubmit={(event) => {
           event.preventDefault();
           handleSearch();
@@ -129,14 +123,21 @@ function Search() {
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
         />
-
-        <StyledButton onClick={handleSearch} type="submit">
+        <StyledButton data-testid={"search-button"} onClick={handleSearch} type="submit">
           Search
         </StyledButton>
-        <StyledButton onClick={handleNextPage} type="button">
+        <StyledButton
+          onClick={handleNextPage}
+          data-testid={"nextButton"}
+          type="button"
+        >
           NextPage
         </StyledButton>
-        <StyledButton onClick={handlePrevPage} type="button">
+        <StyledButton
+          onClick={handlePrevPage}
+          data-testid={"prevButton"}
+          type="button"
+        >
           PrevPage
         </StyledButton>
       </form>
