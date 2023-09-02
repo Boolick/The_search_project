@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { Provider } from "react-redux";
 
 import { Container } from "./Components/Styles/styles";
 import Search from "./Components/Search/Search";
-import { store } from "./Store/Store";
 import UsersList from "./Components/Search/UsersList";
-import { useEffect } from "react";
+import { store } from "./Store/Store";
 
 function App() {
   useEffect(() => {
@@ -17,15 +17,14 @@ function App() {
     link.href = "/icons8-github-50.png";
     document.getElementsByTagName("head")[0].appendChild(link);
   }, []);
+
   return (
-    <>
-      <Provider store={store}>
-        <Search />
-        <Container className="card">
-          <UsersList />
-        </Container>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <Search />
+      <Container className="card">
+        <UsersList />
+      </Container>
+    </Provider>
   );
 }
 

@@ -4,10 +4,17 @@ import { configureStore } from "@reduxjs/toolkit";
 interface SearchUsersAction {
   type: "SEARCH_USERS";
   payload: [];
+  token: string | null;
+}
+
+interface SetTokenAction {
+  type: "SET_TOKEN";
+  token: string;
 }
 
 const initialState = {
   users: [],
+  token: null,
 };
 
 const usersReducer = (
@@ -21,22 +28,33 @@ const usersReducer = (
       return state;
   }
 };
+const tokenReducer = (state = initialState.token, action: SetTokenAction) => {
+  switch (action.type) {
+    case "SET_TOKEN":
+      return action.token;
+    default:
+      return state;
+  }
+};
 
 const rootReducer = combineReducers({
   users: usersReducer,
+  token: tokenReducer,
 });
 
 export const store = configureStore({
   reducer: rootReducer,
 });
-
+export interface Token {
+  token: string | null;
+}
 export interface Users {
   users: User[];
 }
 
 export interface User {
   login: string;
-  id: number; //79834650;
+  id: number;  
   node_id: string;
   avatar_url: string;
   gravatar_id: string;
