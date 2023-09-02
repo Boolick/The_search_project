@@ -2,7 +2,14 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { SearchWrapper, SearchInput, StyledButton, StyledLoading, StyledTextError, StyledErrorMessage } from "../Styles/styles";
+import {
+  SearchWrapper,
+  SearchInput,
+  StyledButton,
+  StyledLoading,
+  StyledTextError,
+  StyledErrorMessage,
+} from "../Styles/styles";
 import { Token, User } from "../../Store/Store";
 import checkToken from "../../Components/Search/chekToken";
 import { setToken } from "../../Store/actions";
@@ -123,7 +130,11 @@ function Search() {
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
         />
-        <StyledButton data-testid={"search-button"} onClick={handleSearch} type="submit">
+        <StyledButton
+          data-testid={"search-button"}
+          onClick={handleSearch}
+          type="submit"
+        >
           Search
         </StyledButton>
         <StyledButton
