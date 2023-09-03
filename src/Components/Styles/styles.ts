@@ -47,6 +47,7 @@ export const StyledButton = styled.button`
     outline: 4px auto -webkit-focus-ring-color;
   }
 `;
+
 interface AvatarProps {
   src: string;
 }
@@ -76,6 +77,7 @@ export const Item = styled.li<ItemProps>`
   cursor: pointer;
   border: #727a86 solid 1px;
   border-radius: 8px;
+  padding: 5px;
 
   &:hover {
     background-color: #272b33;
@@ -83,6 +85,7 @@ export const Item = styled.li<ItemProps>`
     transition: all 0.3s;
   }
 `;
+
 interface UserCardProps {
   children: ReactNode;
   isVisible: boolean;
@@ -121,6 +124,12 @@ export const UserCard = styled.div<UserCardProps>`
 interface SearchWrapperProps {
   children: React.ReactNode;
 }
+
+export const StyledForm = styled.form`
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+`;
 
 export const SearchWrapper = styled.div<SearchWrapperProps>`
   width: 100vw;
