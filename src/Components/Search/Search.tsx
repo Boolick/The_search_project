@@ -15,17 +15,19 @@ import checkToken from "../../Components/Search/chekToken";
 import { setToken } from "../../Store/actions";
 
 function Search() {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<
+    string | number | readonly string[]
+  >("");
   const [page, setPage] = useState(1);
   const perPage = 6;
   const dispatch = useDispatch();
   const [error, setError] = useState<string | null>(null);
-
   const [, setUserToken] = useState<string | null>();
   const token = useSelector((state: Token) => state.token);
   const [isTokenValid, setIsTokenValid] = useState<null | boolean>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchPlaceholder, setSearchPlaceholder] = useState("Поиск");
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -45,9 +47,20 @@ function Search() {
     validateToken();
   }, [token]);
 
+  const handleSearchClick = () => {
+    setIsSearchClicked(true);
+    handleSearch();
+  };
+
   const handleSearch = useCallback(async () => {
-    if (!searchValue) return;
+    if (!searchValue) {
+      if (isSearchClicked) {
+        setError("Пожалуйста введите имя для поиска");
+      }
+      return;
+    }
     setIsLoading(true);
+    setError(null);
     try {
       const response = await axios.get(
         `https://api.github.com/search/users?q=${searchValue}&page=${page}&per_page=${perPage}`,
@@ -63,7 +76,6 @@ function Search() {
         return;
       }
       const users: User[] = response.data.items;
-
       const usersWithRepos = await Promise.all(
         users.map(async (user: User) => {
           const response = await axios.get(user.url, {
@@ -83,13 +95,25 @@ function Search() {
       dispatch({ type: "SEARCH_USERS", payload: usersWithRepos });
       setError(null);
       setIsLoading(false);
-    } catch (error) {
-      if (error instanceof Error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response) {
+        const status = error.response.status;
+        // Обработка ошибки в зависимости от кода состояния
+        if (status === 422) {
+          setError("Неверные данные запроса");
+        } else if (status === 404) {
+          setError("Ресурс не найден");
+        } else {
+          setError(`Ошибка запроса: ${status}`);
+        }
+      } else {
         setError(error.message);
-        setIsLoading(false);
       }
+      setSearchPlaceholder("Введите имя");
+      setIsLoading(false);
     }
-  }, [searchValue, page, token, dispatch]);
+  }, [searchValue, page, token, dispatch, isSearchClicked]);
 
   const handleNextPage = () => {
     setPage(page + 1);
@@ -132,24 +156,24 @@ function Search() {
         />
         <StyledButton
           data-testid={"search-button"}
-          onClick={handleSearch}
+          onClick={handleSearchClick}
           type="submit"
         >
-          Search
+          Поиск
         </StyledButton>
         <StyledButton
           onClick={handleNextPage}
           data-testid={"nextButton"}
           type="button"
         >
-          NextPage
+          Следующая страница
         </StyledButton>
         <StyledButton
           onClick={handlePrevPage}
           data-testid={"prevButton"}
           type="button"
         >
-          PrevPage
+          Предыдущая страница
         </StyledButton>
       </form>
       {isTokenValid === false && (

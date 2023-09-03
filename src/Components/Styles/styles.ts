@@ -76,6 +76,7 @@ export const Item = styled.li<ItemProps>`
   cursor: pointer;
   border: #727a86 solid 1px;
   border-radius: 8px;
+  padding: 5px;
 
   &:hover {
     background-color: #272b33;
