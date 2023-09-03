@@ -9,6 +9,7 @@ import {
   StyledLoading,
   StyledTextError,
   StyledErrorMessage,
+  StyledForm,
 } from "../Styles/styles";
 import { Token, User } from "../../Store/Store";
 import checkToken from "../../Components/Search/chekToken";
@@ -136,7 +137,7 @@ function Search() {
         </StyledLoading>
       )}
       {error && <StyledTextError className="error">{error}</StyledTextError>}
-      <form
+      <StyledForm
         data-testid={"search-form"}
         onSubmit={(event) => {
           event.preventDefault();
@@ -175,7 +176,7 @@ function Search() {
         >
           Предыдущая страница
         </StyledButton>
-      </form>
+      </StyledForm>
       {isTokenValid === false && (
         <StyledErrorMessage href="https://docs.github.com/ru/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">
           Ваш токен доступа недействителен (для более подробной информации
